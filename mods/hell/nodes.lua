@@ -22,11 +22,11 @@ minetest.register_node("hell:portal", {
 	groups = {cracky=3,level=2},
 	sounds = default.node_sound_stone_defaults(),
 	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
-		player:set_physics_override({speed=0, gravity=0})
 		hell.switch_creature_hell(player)
 		player:setpos({x=pointed_thing.under.x, y=player:getpos().y, z=pointed_thing.under.z})
+		player:set_physics_override({speed=0, gravity=0})
+		local playerpos = player:getpos()
 		minetest.after(2, function()
-			local playerpos = player:getpos()
 			if hell.is_hell_pos(playerpos) then
 				minetest.set_node({x=playerpos.x+1, y=playerpos.y, z=playerpos.z}, {name = "default:obsidian"})
 				minetest.set_node({x=playerpos.x-1, y=playerpos.y, z=playerpos.z}, {name = "default:obsidian"})
@@ -86,7 +86,10 @@ minetest.register_node("hell:portal", {
 				minetest.remove_node({x=playerpos.x-1, y=playerpos.y+1, z=playerpos.z-1})
 				minetest.set_node({x=playerpos.x, y=playerpos.y-1, z=playerpos.z}, {name = "hell:portal"})
 			end
-			player:set_physics_override({speed=1, gravity = 1})	
+			if player:getpos() ~= playerpos then
+				player:setpos(playerpos)
+			end
+			player:set_physics_override({speed=1, gravity=1})
 		end)
 	end,
 })
