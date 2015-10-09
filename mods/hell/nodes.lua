@@ -16,7 +16,7 @@ minetest.register_node("hell:glowstone", {
 })
 
 minetest.register_node("hell:portal", {
-	desription = "Hell Portal",
+	description = "Hell Portal",
 	tiles = {"hell_portal.png", "default_obsidian.png"},
 	is_ground_content = true,
 	groups = {cracky=3,level=2},
